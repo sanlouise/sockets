@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 
+//Front-end
 app.use(express.static(__dirname + '/public'));
 
 http.listen(PORT, function () {
