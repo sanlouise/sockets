@@ -35,8 +35,8 @@ io.on('connect', function (socket) {
 		console.log('Your message was received: ' + message.text);
 		//Add timestamps. valueOf returns Javascript timestamp, ms version of UNIX timestamp.
 		message.timestamp = moment().valueOf();
-		//Sends to everyone except for the client that sent it
-		io.emit('message', message);
+		//Sends to everyone except for the client that sent it. Only to the room of the current user!
+		io.to(clientInfo[socket.id].room).emit('message', message);
 	});
 
 	socket.emit('message', {
