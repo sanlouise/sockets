@@ -12,7 +12,7 @@ socket.on('message', function (message) {
 	console.log(message.text);
 
 	//Adding incoming messages to the screen
-	jQuery('.messages').append('<p><strong>' + momentTimestamp.format('h:mm a') + '</strong>' + message.text + '</p>');
+	jQuery('.messages').append('<p><strong>' + momentTimestamp.local().format('h:mm a') + '</strong>: ' + message.text + '</p>');
 });
 
 //Handles the submission of a new message
