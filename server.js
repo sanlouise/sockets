@@ -24,6 +24,7 @@ io.on('connect', function (socket) {
 	});
 
 	socket.emit('message', {
+		name: 'System',
 		text: 'Welcome to Chatty!',
 		timestamp: moment.valueOf()
 	});
