@@ -3,11 +3,16 @@ var room = getQueryVariable('room');
 
 var socket = io();
 
-jQuery('.room-name').text(room);
+jQuery('#room-name').text(room);
 
 //Listen for connect event
 socket.on('connect', function () {
 	console.log('Connected to the socket.io server!');
+	//Join specific room
+	socket.emit('joinRoom', {
+		name: name,
+		room: room
+	});
 });
 
 //Listen for emit event
