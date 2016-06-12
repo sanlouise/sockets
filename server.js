@@ -75,10 +75,9 @@ io.on('connect', function(socket) {
 	});
 
 	socket.on('message', function(message) {
-
-		//Check if a message is a commend, otherwise run default message
+		//Check if a message is a command, otherwise run default message
 		if (message.text === '@currentUsers') {
-			sendCurrentUsers(sockets);
+			sendCurrentUsers(socket);
 
 		} else {
 			//Add timestamps. valueOf returns Javascript timestamp, ms version of UNIX timestamp.
