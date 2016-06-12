@@ -1,20 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
 	<head>
 		<meta charset="UTF-8">
 		<title>Chatty</title>
+		<link rel="stylesheet" href="./css/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/custom.css">
+		<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	</head>
 
 	<body>
-		<h1>Join Chat</h1>
-		<form action="/chat.html">
-			<label>Name</label>
-			<input type="text" name="name"/>
-			<label>Chat Room</label>
-			<input type="text" name="room"/>
-			<input type="submit" value="Join Chat"/>
-		</form>
+		<div class="vertical-center">
+			<div class="container">
+				<div class="row">
+
+
+					<div class="col-md-4 col-md-offset-4 text-center">
+						<h1>This is Chatty.</h1>
+						<div class="well">
+							<form action="/chat.html">
+								<div class="form-group">
+									<label>Username</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="glyphicon glyphicon-user"></i>
+										</span>
+										<input type="text" name="name" class="form-control"/>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>Room Name</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="glyphicon glyphicon-comment"></i>
+										</span>
+										<input type="text" name="room" class="form-control"/>		
+									</div>
+								</div>
+
+								<div class="form-group">
+									<input type="submit" value="Join Chat" class="btn btn-primary btn-block"/>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>	
+		</div>	
 
 	</body>
 </html>
