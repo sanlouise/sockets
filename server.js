@@ -16,6 +16,22 @@ var clientInfo = {};
 io.on('connect', function (socket) {
 	console.log('User is connected via socket.io!');
 
+	// To disconnect. This is an inbuilt method.
+	socket.on('disconnect', function () {
+		var userData = clientInfo[socket.id];
+		//Check if connected in a chat room
+		if (typeof userData !== 'undefined') {
+			socket.leave(userData.room);
+
+			io.to(userData.room).emit('message', {
+				name: 'System',
+				text: userData.name + ' has left the room.',
+				timestamp: moment().valueOf()
+			});
+			delete clientInfo[socket.id];
+		}
+	});
+
 	socket.on('joinRoom', function (req) {
 		//Stores dynamic room name with a unique identifier
 		clientInfo[socket.id] = req;
