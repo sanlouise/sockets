@@ -86,17 +86,16 @@ io.on('connect', function(socket) {
 			io.to(clientInfo[socket.id].room).emit('message', message);
 
 		}
-
 		//Emit event to other connections
 		console.log('Your message was received: ' + message.text);
 
 	});
 
-	socket.emit('message', {
-		name: 'System',
-		text: 'Welcome to Chatty!',
-		timestamp: moment.valueOf()
-	});
+	// socket.emit('message', {
+	// 	name: 'System',
+	// 	text: 'Welcome to Chatty!',
+	// 	timestamp: moment.valueOf()
+	// });
 });
 
 http.listen(PORT, function() {
