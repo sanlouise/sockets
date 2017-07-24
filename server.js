@@ -5,27 +5,26 @@ http = require('http').Server(app),
 io = require('socket.io')(http),
 moment = require('moment');
 
-//Front-end
+//Hook up front-end to node backend
 app.use(express.static(__dirname + '/public'));
 
 //To store room name user is in
-let roomId = {};
+let roomIds = {};
 
 //Sends current users to socket
 const connectUsers = (socket) => {
 	//Check what room the user is in
-	const socketId = roomId[socket.id];
+	const socketId = roomIds[socket.id];
 	//Empty array to push users in room to
 	let users = [];
 
 	//Check if chat room still exists
-	if (typeof socketId === 'undefined') {
-		return;
-	}
-	//Search through roomId. Takes object and returns array of all attributes on that object.
+	if (typeof socketId === 'undefined') { return };
+
+	//Search through roomIds. Returns array of all attributes on the object.
 	// Here we check if room name is equal to current user's room.
-	Object.keys(roomId).forEach(function (socketId) {
-		const userId = roomId[socketId];
+	Object.keys(roomIds).forEach(function (socketId) {
+		const userId = roomIds[socketId];
 
 		if (socketId.room === userId.room) {
 			users.push(userId.name);
@@ -39,14 +38,14 @@ const connectUsers = (socket) => {
 	})
 }
 
-//Listen to events, here a connection
-//Socket is an individual client (a computer) that emits something to a server
+//Listen to connection event.
+//Socket is an individual client (a computer) that emits something to a server.
 io.on('connect', (socket) => {
 	console.log('User is connected via socket.io!');
 
 	// To disconnect. This is an inbuilt method.
 	socket.on('disconnect', () => {
-		const userData = roomId[socket.id];
+		const userData = roomIds[socket.id];
 		//Check if connected in a chat room
 		if (typeof userData !== 'undefined') {
 			socket.leave(userData.room);
@@ -56,13 +55,13 @@ io.on('connect', (socket) => {
 				text: userData.name + ' has left the room.',
 				timestamp: moment().valueOf()
 			});
-			delete roomId[socket.id];
+			delete roomIds[socket.id];
 		}
 	});
 
 	socket.on('joinRoom', (req) => {
 		//Stores dynamic room name with a unique identifier
-		roomId[socket.id] = req;
+		roomIds[socket.id] = req;
 		//Join is specific to sockets, tells socket.io library to connect socket to specific room
 		socket.join(req.room);
 		//Tells all members that someone joined the room
@@ -82,7 +81,7 @@ io.on('connect', (socket) => {
 			//Add timestamps. valueOf returns Javascript timestamp, ms version of UNIX timestamp.
 			message.timestamp = moment().valueOf();
 			//Sends to everyone except for the client that sent it. Only to the room of the current user!
-			io.to(roomId[socket.id].room).emit('message', message);
+			io.to(roomIds[socket.id].room).emit('message', message);
 
 		}
 		//Emit event to other connections
