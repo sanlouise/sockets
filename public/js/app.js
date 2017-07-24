@@ -1,12 +1,11 @@
-var name = getQueryVariable('name') || 'Anonymous';
-var room = getQueryVariable('room');
-
-var socket = io();
+const name = getQueryVariable('name') || 'Anonymous';
+const room = getQueryVariable('room');
+const socket = io();
 
 jQuery('#room-name').text(room);
 
 //Listen for connect event
-socket.on('connect', function () {
+socket.on('connect', () => {
 	console.log('Connected to the socket.io server!');
 	//Join specific room
 	socket.emit('joinRoom', {
@@ -16,10 +15,10 @@ socket.on('connect', function () {
 });
 
 //Listen for emit event. Append messages to the right div.
-socket.on('message', function (message) {
-	var momentTimestamp = moment.utc(message.timestamp);
-	var $messages = jQuery('.messages');
-	var $message = jQuery('<li class="list-group-item"></li>');
+socket.on('message', (message) => {
+	const momentTimestamp = moment.utc(message.timestamp);
+	const $messages = jQuery('.messages');
+	const $message = jQuery('<li class="list-group-item"></li>');
 
 	console.log('New message:');
 	console.log(message.text);
@@ -30,12 +29,12 @@ socket.on('message', function (message) {
 });
 
 //Handles the submission of a new message
-var $form = jQuery('#message-form');
+const $form = jQuery('#message-form');
 
-$form.on('submit', function (event) {
+$form.on('submit', (event) => {
 	event.preventDefault();
 
-	var $message = $form.find('input[name=message]');
+	const $message = $form.find('input[name=message]');
 	socket.emit('message', {
 		name: name,
 		text: $message.val()
